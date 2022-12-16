@@ -11,23 +11,25 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    age = int(request.form.get('age'))
-    sex = int(request.form.get('sex'))
-    cp = int(request.form.get('cp'))
-    trestbps = int(request.form.get('trestbps'))
-    chol = int(request.form.get('chol') )
-    fbs = int(request.form.get('fbs'))
-    restecg = int(request.form.get('restecg'))
-    thalac = int(request.form.get('thalac'))
-    exang = int(request.form.get('exang') ) 
-    oldpeak = request.form.get('oldpeak') 
-    slop = int(request.form.get('slop'))
-    ca = int(request.form.get('ca'))
-    thal = int(request.form.get('thal'))
-    input_query =np.array([[age , sex ,cp ,trestbps,chol,fbs,restecg,thalac,exang,
-                                oldpeak,slop,ca,thal]])
+    age = int(request.form.get('age',type=int))
+    x= print(f"age:{age}")
+    sex = int(request.form.get('sex',type=int))
+    cp = int(request.form.get('cp', type=int))
+    trestbps = int(request.form.get('trestbps', 120,type=int))
+    chol = int(request.form.get('chol', 50,type=int) )
+    fbs = int(request.form.get('fbs', 10,type=int))
+    restecg = int(request.form.get('restecg', 0,type=int))
+    thalach = int(request.form.get('thalach', 2,type=int))
+    exang = int(request.form.get('exang', 100,type=int) ) 
+    oldpeak = request.form.get('oldpeak', 1.2,type=float) 
+    slope = int(request.form.get('slope', 2,type=int))
+    ca = int(request.form.get('ca', 0,type=int))
+    thal = int(request.form.get('thal', 20,type=int))
+    input_query =np.array([[age , sex ,cp ,trestbps,chol,fbs,restecg,thalach,exang,
+                                oldpeak,slope,ca,thal]])
     result = model.predict(input_query)[0]
+    # return x
     return jsonify({'placement':str(result)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False , host="0.0.0.0")
